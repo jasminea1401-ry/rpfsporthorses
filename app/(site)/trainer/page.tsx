@@ -26,7 +26,7 @@ export default async function TrainerDashboardPage() {
 
   const { data: lessons } = await supabase
     .from("lessons")
-    .select("*, student:student_id(full_name, phone, email)")
+    .select("*, student:student_id(full_name, phone)")
     .eq("trainer_id", user.id)
     .order("lesson_date", { ascending: true }) as { data: Lesson[] | null }
 
