@@ -380,7 +380,7 @@ export default function SchedulePage() {
                 </div>
 
                 <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800">
-                  <strong>Pending approval:</strong> Your trainer will review and confirm this lesson within 24 hours. Payment will be due after confirmation.
+                  <strong>Pending approval:</strong> Your trainer will review and confirm this lesson within 24 hours. Payment is due at the lesson.
                 </div>
               </CardContent>
             </Card>
