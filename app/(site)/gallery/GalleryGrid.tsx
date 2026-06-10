@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 
-const categories = ["All", "Shows", "Training", "Horses", "Team", "Events"]
+const categories = ["All", "Show Series", "Regionals", "Lessons/Training", "Others"]
 
 export type GalleryItem = { src: string; category: string; caption: string }
 
