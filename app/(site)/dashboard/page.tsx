@@ -21,7 +21,7 @@ export default async function DashboardPage() {
 
   const { data: lessons } = await supabase
     .from("lessons")
-    .select("*, trainer:trainer_id(full_name)")
+    .select("*, trainer:trainers!lessons_trainer_id_fkey(profile:profiles!trainers_id_fkey(full_name))")
     .eq("student_id", user.id)
     .order("lesson_date", { ascending: false })
     .limit(10) as { data: Lesson[] | null }
@@ -119,7 +119,8 @@ export default async function DashboardPage() {
                           </div>
                           <div className="text-sm text-stone-500">
                             {formatTime(lesson.start_time)} · {lesson.duration_minutes} min
-                            {lesson.trainer && ` · ${(lesson.trainer as unknown as Profile).full_name}`}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                            {(lesson.trainer as any)?.profile?.full_name && ` · ${(lesson.trainer as any).profile.full_name}`}
                           </div>
                         </div>
                         <div className="flex items-center gap-2">

@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { DollarSign, ExternalLink } from "lucide-react"
 import { formatDate, formatTime } from "@/lib/utils"
-import type { Lesson, Profile } from "@/types/database"
+import type { Lesson } from "@/types/database"
 
 const VENMO_USERNAME = process.env.NEXT_PUBLIC_VENMO_USERNAME || "RPFSporthorses"
 const PAYPAL_ME = process.env.NEXT_PUBLIC_PAYPAL_ME_URL || "https://paypal.me/RPFSporthorses"
@@ -18,7 +18,7 @@ export default async function PaymentsPage() {
 
   const { data: lessons } = await supabase
     .from("lessons")
-    .select("*, trainer:trainer_id(full_name)")
+    .select("*, trainer:trainers!lessons_trainer_id_fkey(profile:profiles!trainers_id_fkey(full_name))")
     .eq("student_id", user.id)
     .in("status", ["approved", "completed"])
     .order("lesson_date", { ascending: false }) as { data: Lesson[] | null }
@@ -96,7 +96,8 @@ export default async function PaymentsPage() {
                       <div className="font-medium text-stone-900">{formatDate(lesson.lesson_date)}</div>
                       <div className="text-sm text-stone-500">
                         {formatTime(lesson.start_time)} · {lesson.duration_minutes} min
-                        {lesson.trainer && ` · ${(lesson.trainer as unknown as Profile).full_name}`}
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        {(lesson.trainer as any)?.profile?.full_name && ` · ${(lesson.trainer as any).profile.full_name}`}
                       </div>
                     </div>
                     <div className="text-right">
@@ -128,7 +129,8 @@ export default async function PaymentsPage() {
                       <div className="font-medium text-stone-900">{formatDate(lesson.lesson_date)}</div>
                       <div className="text-sm text-stone-500">
                         {formatTime(lesson.start_time)} · {lesson.duration_minutes} min
-                        {lesson.trainer && ` · ${(lesson.trainer as unknown as Profile).full_name}`}
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        {(lesson.trainer as any)?.profile?.full_name && ` · ${(lesson.trainer as any).profile.full_name}`}
                       </div>
                     </div>
                     <div className="text-right">
