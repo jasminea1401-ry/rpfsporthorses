@@ -21,7 +21,7 @@ export default async function TrialLessonPage() {
     getSiteSettings(),
     supabase
       .from("trainers")
-      .select("id, specialties, profile:id(full_name)")
+      .select("id, specialties, profile:profiles!trainers_id_fkey(full_name)")
       .eq("accepts_trial_lessons", true),
   ])
 

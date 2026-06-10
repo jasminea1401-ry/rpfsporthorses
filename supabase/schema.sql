@@ -34,6 +34,12 @@ create policy "Trainers and owners can view all profiles" on public.profiles for
   public.is_trainer_or_owner()
 );
 
+-- Trainer/owner names need to be visible to everyone (incl. anonymous visitors)
+-- so the trial/scheduling pages can show "Select a Trainer" with names attached.
+create policy "Trainer and owner profiles are publicly viewable" on public.profiles for select to anon, authenticated using (
+  role in ('trainer', 'owner')
+);
+
 -- Trainer profiles (linked to profiles)
 create table public.trainers (
   id uuid references public.profiles(id) on delete cascade primary key,
