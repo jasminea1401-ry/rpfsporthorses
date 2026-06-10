@@ -16,6 +16,7 @@ const navLinks = [
     children: [
       { href: "/about", label: "About Us" },
       { href: "/show-team", label: "Show Team" },
+      { href: "/lesson-horses", label: "Lesson Horses" },
     ],
   },
   { href: "/services", label: "Services" },
