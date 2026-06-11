@@ -70,7 +70,6 @@ export default function SchedulePage() {
       const { data } = await supabase
         .from("trainers")
         .select("*, profile:profiles!trainers_id_fkey(full_name)")
-        .eq("accepts_trial_lessons", false)
       setTrainers((data as any) || [])
     }
     load()
