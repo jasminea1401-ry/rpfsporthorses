@@ -1,6 +1,7 @@
 import { pageSchema } from "./page"
 import { trainerSchema } from "./trainer"
 import { galleryImageSchema } from "./galleryImage"
+import { galleryAlbumSchema } from "./galleryAlbum"
 import { awardSchema } from "./award"
 import { showTeamMemberSchema } from "./showTeamMember"
 import { lessonHorseSchema } from "./lessonHorse"
@@ -16,6 +17,7 @@ export const schemaTypes = [
   serviceSchema,
   trainerSchema,
   galleryImageSchema,
+  galleryAlbumSchema,
   awardSchema,
   showTeamMemberSchema,
   lessonHorseSchema,

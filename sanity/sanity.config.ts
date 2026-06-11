@@ -25,7 +25,10 @@ export default defineConfig({
             S.documentTypeListItem("page").title("Pages"),
             S.documentTypeListItem("service").title("Services"),
             S.documentTypeListItem("trainer").title("Trainers"),
-            S.documentTypeListItem("galleryImage").title("Gallery"),
+            S.documentTypeListItem("galleryImage").title("Gallery (Single Photos)"),
+            S.listItem()
+              .title("Gallery (Bulk Upload)")
+              .child(S.document().schemaType("galleryAlbum").documentId("galleryAlbum")),
             S.documentTypeListItem("award").title("Awards"),
             S.documentTypeListItem("showTeamMember").title("Show Team"),
             S.documentTypeListItem("lessonHorse").title("Lesson Horses"),

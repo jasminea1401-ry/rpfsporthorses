@@ -165,13 +165,14 @@ export function Navbar() {
                 </button>
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg border border-stone-200 py-1">
-                    {user.role === "trainer" || user.role === "owner" ? (
+                    {(user.role === "trainer" || user.role === "owner") && (
                       <Link href="/trainer" className="flex items-center gap-2 px-4 py-2 text-sm text-stone-700 hover:bg-stone-50" onClick={() => setDropdownOpen(false)}>
                         <Calendar className="h-4 w-4" /> Trainer Dashboard
                       </Link>
-                    ) : (
+                    )}
+                    {(user.role === "owner" || user.role === "student") && (
                       <Link href="/dashboard" className="flex items-center gap-2 px-4 py-2 text-sm text-stone-700 hover:bg-stone-50" onClick={() => setDropdownOpen(false)}>
-                        <Calendar className="h-4 w-4" /> My Lessons
+                        <Calendar className="h-4 w-4" /> Book / My Lessons
                       </Link>
                     )}
                     <Link href="/dashboard/profile" className="flex items-center gap-2 px-4 py-2 text-sm text-stone-700 hover:bg-stone-50" onClick={() => setDropdownOpen(false)}>
@@ -265,9 +266,16 @@ export function Navbar() {
               </Link>
               {user ? (
                 <>
-                  <Link href={user.role === "trainer" ? "/trainer" : "/dashboard"} onClick={() => setOpen(false)}>
-                    <Button variant="outline" className="w-full border-stone-400 text-stone-200">My Dashboard</Button>
-                  </Link>
+                  {(user.role === "trainer" || user.role === "owner") && (
+                    <Link href="/trainer" onClick={() => setOpen(false)}>
+                      <Button variant="outline" className="w-full border-stone-400 text-stone-200">Trainer Dashboard</Button>
+                    </Link>
+                  )}
+                  {(user.role === "owner" || user.role === "student") && (
+                    <Link href="/dashboard" onClick={() => setOpen(false)}>
+                      <Button variant="outline" className="w-full border-stone-400 text-stone-200">Book / My Lessons</Button>
+                    </Link>
+                  )}
                   <button onClick={handleSignOut} className="text-red-400 text-sm py-2">Sign Out</button>
                 </>
               ) : (

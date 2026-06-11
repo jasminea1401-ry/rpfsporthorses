@@ -40,12 +40,30 @@ export async function getServices(): Promise<any[]> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getGalleryImages(): Promise<any[]> {
   try {
-    const data = await sanityClient.fetch(
-      `*[_type == "galleryImage"] | order(order asc, _createdAt asc){ _id, title, image, alt, caption, category }`,
-      {},
-      { next: { revalidate: 60 } }
-    )
-    return data || []
+    const [singles, album] = await Promise.all([
+      sanityClient.fetch(
+        `*[_type == "galleryImage"] | order(order asc, _createdAt asc){ _id, title, image, alt, caption, category }`,
+        {},
+        { next: { revalidate: 60 } }
+      ),
+      sanityClient.fetch(
+        `*[_type == "galleryAlbum"][0]{ images }`,
+        {},
+        { next: { revalidate: 60 } }
+      ),
+    ])
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const albumImages = (album?.images || []).map((img: any) => ({
+      _id: img._key,
+      title: "",
+      image: img,
+      alt: img.alt || "",
+      caption: img.caption || "",
+      category: img.category || "",
+    }))
+
+    return [...(singles || []), ...albumImages]
   } catch {
     return []
   }
