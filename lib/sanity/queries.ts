@@ -94,6 +94,20 @@ export async function getLessonHorses(): Promise<any[]> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getTestimonials(): Promise<any[]> {
+  try {
+    const data = await sanityClient.fetch(
+      `*[_type == "testimonial"] | order(order asc, _createdAt asc){ _id, name, role, photo, quote, rating }`,
+      {},
+      { next: { revalidate: 60 } }
+    )
+    return data || []
+  } catch {
+    return []
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getTrainers(): Promise<any[]> {
   try {
     const data = await sanityClient.fetch(

@@ -22,6 +22,7 @@ const navLinks = [
   { href: "/services", label: "Services" },
   { href: "/gallery", label: "Gallery" },
   { href: "/awards", label: "Awards" },
+  { href: "/testimonials", label: "Testimonials" },
 ]
 
 export function Navbar() {

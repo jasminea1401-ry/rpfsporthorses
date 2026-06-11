@@ -4,6 +4,7 @@ import { galleryImageSchema } from "./galleryImage"
 import { awardSchema } from "./award"
 import { showTeamMemberSchema } from "./showTeamMember"
 import { lessonHorseSchema } from "./lessonHorse"
+import { testimonialSchema } from "./testimonial"
 import { serviceSchema } from "./service"
 import { siteSettingsSchema } from "./siteSettings"
 import { homePageSchema } from "./homePage"
@@ -18,4 +19,5 @@ export const schemaTypes = [
   awardSchema,
   showTeamMemberSchema,
   lessonHorseSchema,
+  testimonialSchema,
 ]
