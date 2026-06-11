@@ -1,7 +1,4 @@
-import { ChevronRight } from "lucide-react"
-import Link from "next/link"
 import { PortableText } from "@portabletext/react"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { getPageBySlug, getTrainers } from "@/lib/sanity/queries"
 import { urlFor } from "@/lib/sanity/client"
@@ -27,42 +24,6 @@ export default async function AboutPage() {
   const storyImages = page?.primarySection?.images?.length > 0
     ? page.primarySection.images.map((img: any) => urlFor(img).width(600).quality(85).url())
     : fallbackStoryImages
-
-  const fallbackCards = [
-    {
-      title: "Excellence",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-      title: "Partnership",
-      description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure.",
-    },
-    {
-      title: "Community",
-      description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    },
-  ]
-  const cards = page?.cards?.length > 0 ? page.cards : fallbackCards
-
-  const fallbackAmenities = [
-    "Covered arena with professional footing",
-    "Outdoor arena with stadium lighting",
-    "Permanent show jumps and poles",
-    "Cross-country course",
-    "Spacious, well-ventilated stalls",
-    "Wash racks and grooming stations",
-    "Tack room and client lockers",
-    "Observation lounge",
-  ]
-  const facility = page?.secondarySection
-  const facilityEyebrow = facility?.eyebrow || "The Facility"
-  const facilityHeading = facility?.heading || "World-Class Amenities"
-  const facilityImage = facility?.image?.asset
-    ? urlFor(facility.image).width(800).quality(85).url()
-    : "https://images.unsplash.com/photo-1559310278-18a9192d7c03?w=800&auto=format&fit=crop"
-  const facilityItems = facility?.listItems?.length > 0 ? facility.listItems : fallbackAmenities
-  const facilityButtonText = facility?.buttonText || "Come See For Yourself"
-  const facilityButtonLink = facility?.buttonLink || "/trial"
 
   return (
     <>
@@ -167,55 +128,6 @@ export default async function AboutPage() {
         </section>
       )}
 
-      {/* Mission & Values */}
-      <section className="py-24 bg-stone-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">What Drives Us</p>
-            <h2 className="font-serif text-4xl font-bold text-stone-900">Our Mission & Values</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {cards.map((v: any) => (
-              <div key={v.title} className="bg-white rounded-2xl p-8 shadow-sm border border-stone-100">
-                <div className="w-1 h-8 bg-amber-500 rounded mb-4" />
-                <h3 className="font-serif text-xl font-bold text-stone-900 mb-3">{v.title}</h3>
-                <p className="text-stone-500 leading-relaxed">{v.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Facility */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <img
-                src={facilityImage}
-                alt="Our facility"
-                className="rounded-2xl shadow-xl w-full h-[450px] object-cover"
-              />
-            </div>
-            <div>
-              <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">{facilityEyebrow}</p>
-              <h2 className="font-serif text-4xl font-bold text-stone-900 mb-6">{facilityHeading}</h2>
-              <ul className="space-y-3 text-stone-600 mb-8">
-                {facilityItems.map((item: string) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <ChevronRight className="h-4 w-4 text-blue-700 shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Link href={facilityButtonLink}>
-                <Button>{facilityButtonText}</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   )
 }
