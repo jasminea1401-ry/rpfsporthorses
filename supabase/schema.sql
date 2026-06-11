@@ -108,6 +108,12 @@ create policy "Students view own lessons" on public.lessons for select using (au
 create policy "Trainers view their lessons" on public.lessons for select using (auth.uid() = trainer_id);
 create policy "Students can create lessons" on public.lessons for insert with check (auth.uid() = student_id);
 create policy "Trainers can update their lessons" on public.lessons for update using (auth.uid() = trainer_id);
+-- Students can cancel or reschedule their own lessons (cannot mark as completed)
+create policy "Students can update own lessons" on public.lessons for update using (
+  auth.uid() = student_id
+) with check (
+  auth.uid() = student_id and status in ('pending', 'approved', 'cancelled')
+);
 create policy "Owners view all lessons" on public.lessons for select using (
   exists (select 1 from public.profiles where id = auth.uid() and role = 'owner')
 );

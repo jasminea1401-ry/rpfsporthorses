@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Calendar, Clock, DollarSign, Plus, User } from "lucide-react"
 import { formatDate, formatTime } from "@/lib/utils"
 import type { Lesson, Profile } from "@/types/database"
+import { ClientLessonActions } from "./LessonActions"
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -112,27 +113,37 @@ export default async function DashboardPage() {
                 ) : (
                   <div className="space-y-3">
                     {upcoming.map((lesson) => (
-                      <div key={lesson.id} className="flex items-center justify-between p-4 bg-stone-50 rounded-lg border border-stone-100">
-                        <div>
-                          <div className="font-medium text-stone-900">
-                            {formatDate(lesson.lesson_date)}
+                      <div key={lesson.id} className="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="font-medium text-stone-900">
+                              {formatDate(lesson.lesson_date)}
+                            </div>
+                            <div className="text-sm text-stone-500">
+                              {formatTime(lesson.start_time)} · {lesson.duration_minutes} min
+                              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                              {(lesson.trainer as any)?.profile?.full_name && ` · ${(lesson.trainer as any).profile.full_name}`}
+                            </div>
                           </div>
-                          <div className="text-sm text-stone-500">
-                            {formatTime(lesson.start_time)} · {lesson.duration_minutes} min
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {(lesson.trainer as any)?.profile?.full_name && ` · ${(lesson.trainer as any).profile.full_name}`}
+                          <div className="flex items-center gap-2">
+                            <Badge variant={lesson.status as "pending" | "approved" | "cancelled" | "completed"}>
+                              {lesson.status}
+                            </Badge>
+                            {lesson.payment_status === "unpaid" && lesson.status === "approved" && (
+                              <Link href="/dashboard/payments">
+                                <Badge variant="pending">Pay now</Badge>
+                              </Link>
+                            )}
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Badge variant={lesson.status as "pending" | "approved" | "cancelled" | "completed"}>
-                            {lesson.status}
-                          </Badge>
-                          {lesson.payment_status === "unpaid" && lesson.status === "approved" && (
-                            <Link href="/dashboard/payments">
-                              <Badge variant="pending">Pay now</Badge>
-                            </Link>
-                          )}
-                        </div>
+                        {(lesson.status === "pending" || lesson.status === "approved") && (
+                          <ClientLessonActions
+                            lessonId={lesson.id}
+                            trainerId={lesson.trainer_id}
+                            durationMinutes={lesson.duration_minutes}
+                            notes={lesson.notes}
+                          />
+                        )}
                       </div>
                     ))}
                   </div>
