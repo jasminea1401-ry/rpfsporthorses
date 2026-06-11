@@ -80,6 +80,20 @@ export async function getShowTeam(): Promise<any[]> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getLessonHorses(): Promise<any[]> {
+  try {
+    const data = await sanityClient.fetch(
+      `*[_type == "lessonHorse"] | order(order asc, _createdAt asc){ _id, name, photo, age, height, breed, bio }`,
+      {},
+      { next: { revalidate: 60 } }
+    )
+    return data || []
+  } catch {
+    return []
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getTrainers(): Promise<any[]> {
   try {
     const data = await sanityClient.fetch(

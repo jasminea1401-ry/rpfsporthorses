@@ -28,6 +28,7 @@ export default defineConfig({
             S.documentTypeListItem("galleryImage").title("Gallery"),
             S.documentTypeListItem("award").title("Awards"),
             S.documentTypeListItem("showTeamMember").title("Show Team"),
+            S.documentTypeListItem("lessonHorse").title("Lesson Horses"),
           ]),
     }),
     visionTool(),
