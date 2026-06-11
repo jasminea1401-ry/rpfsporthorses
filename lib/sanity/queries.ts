@@ -42,12 +42,12 @@ export async function getGalleryImages(): Promise<any[]> {
   try {
     const [singles, album] = await Promise.all([
       sanityClient.fetch(
-        `*[_type == "galleryImage"] | order(order asc, _createdAt asc){ _id, title, image, alt, caption, category }`,
+        `*[_type == "galleryImage"] | order(order asc, _createdAt asc){ _id, title, image, alt, caption, category, "dimensions": image.asset->metadata.dimensions }`,
         {},
         { next: { revalidate: 60 } }
       ),
       sanityClient.fetch(
-        `*[_type == "galleryAlbum"][0]{ images }`,
+        `*[_type == "galleryAlbum"][0]{ images[]{ ..., "dimensions": asset->metadata.dimensions } }`,
         {},
         { next: { revalidate: 60 } }
       ),
@@ -61,6 +61,7 @@ export async function getGalleryImages(): Promise<any[]> {
       alt: img.alt || "",
       caption: img.caption || "",
       category: img.category || "",
+      dimensions: img.dimensions,
     }))
 
     return [...(singles || []), ...albumImages]

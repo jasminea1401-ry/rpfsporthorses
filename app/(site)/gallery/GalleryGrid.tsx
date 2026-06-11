@@ -4,13 +4,35 @@ import { cn } from "@/lib/utils"
 
 const categories = ["All", "Show Series", "Regionals", "Lessons/Training", "Others"]
 
-export type GalleryItem = { src: string; category: string; caption: string }
+export type GalleryItem = { src: string; category: string; caption: string; orientation?: "horizontal" | "vertical" }
+
+function ImageTile({ img, onClick }: { img: GalleryItem; onClick: () => void }) {
+  return (
+    <div
+      className="group cursor-pointer relative overflow-hidden rounded-xl w-full h-full"
+      onClick={onClick}
+    >
+      <img
+        src={img.src}
+        alt={img.caption}
+        className="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors rounded-xl flex items-end">
+        <p className="text-white text-sm font-medium p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+          {img.caption}
+        </p>
+      </div>
+    </div>
+  )
+}
 
 export function GalleryGrid({ images }: { images: GalleryItem[] }) {
   const [activeCategory, setActiveCategory] = useState("All")
   const [lightbox, setLightbox] = useState<string | null>(null)
 
   const filtered = activeCategory === "All" ? images : images.filter((i) => i.category === activeCategory)
+  const horizontal = filtered.filter((i) => i.orientation !== "vertical")
+  const vertical = filtered.filter((i) => i.orientation === "vertical")
 
   return (
     <>
@@ -42,25 +64,25 @@ export function GalleryGrid({ images }: { images: GalleryItem[] }) {
           {filtered.length === 0 ? (
             <p className="text-center text-stone-400 py-12">No images in this category yet.</p>
           ) : (
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-              {filtered.map((img, i) => (
-                <div
-                  key={i}
-                  className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-xl"
-                  onClick={() => setLightbox(img.src)}
-                >
-                  <img
-                    src={img.src}
-                    alt={img.caption}
-                    className="w-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors rounded-xl flex items-end">
-                    <p className="text-white text-sm font-medium p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      {img.caption}
-                    </p>
-                  </div>
+            <div className="space-y-4">
+              {horizontal.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {horizontal.map((img, i) => (
+                    <div key={i} className="aspect-[4/3]">
+                      <ImageTile img={img} onClick={() => setLightbox(img.src)} />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
+              {vertical.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {vertical.map((img, i) => (
+                    <div key={i} className="aspect-[3/4]">
+                      <ImageTile img={img} onClick={() => setLightbox(img.src)} />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

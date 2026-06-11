@@ -21,11 +21,17 @@ export default async function GalleryPage() {
   const images: GalleryItem[] = cmsImages.length > 0
     ? cmsImages
         .filter((img: any) => img.image?.asset)
-        .map((img: any) => ({
-          src: urlFor(img.image).width(800).quality(85).url(),
-          category: img.category || "Shows",
-          caption: img.caption || img.title || "",
-        }))
+        .map((img: any) => {
+          const dims = img.dimensions
+          const orientation: GalleryItem["orientation"] =
+            dims && dims.height > dims.width ? "vertical" : "horizontal"
+          return {
+            src: urlFor(img.image).width(800).quality(85).url(),
+            category: img.category || "Shows",
+            caption: img.caption || img.title || "",
+            orientation,
+          }
+        })
     : fallbackImages
 
   const heroEyebrow = page?.hero?.eyebrow || "Our Photo Gallery"
