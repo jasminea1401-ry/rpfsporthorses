@@ -3,8 +3,11 @@ import { PortableText } from "@portabletext/react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Award, Users, Calendar, Star, Heart, Shield, CheckCircle, MapPin, ChevronRight, type LucideIcon } from "lucide-react"
-import { getSiteSettings, getHeroImageUrl, getHomePage, getServices } from "@/lib/sanity/queries"
+import { getSiteSettings, getHeroImageUrl, getHomePage, getServices, getTestimonials } from "@/lib/sanity/queries"
 import { urlFor } from "@/lib/sanity/client"
+import { Reveal } from "@/components/ux/Reveal"
+import { Counter } from "@/components/ux/Counter"
+import { TestimonialRotator, type RotatorTestimonial } from "@/components/home/TestimonialRotator"
 
 const iconMap: Record<string, LucideIcon> = {
   Award,
@@ -48,10 +51,11 @@ const fallbackServicesPreview = [
 ]
 
 export default async function HomePage() {
-  const [settings, home, cmsServices] = await Promise.all([
+  const [settings, home, cmsServices, cmsTestimonials] = await Promise.all([
     getSiteSettings(),
     getHomePage(),
     getServices(),
+    getTestimonials(),
   ])
   const heroImage = getHeroImageUrl(settings)
 
@@ -98,6 +102,12 @@ export default async function HomePage() {
         isPortable: Array.isArray(s.description),
       }))
     : fallbackServicesPreview.map((s) => ({ ...s, isPortable: false }))
+
+  // Testimonials carousel
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const testimonials: RotatorTestimonial[] = (cmsTestimonials || [])
+    .filter((t: any) => t.quote)
+    .map((t: any) => ({ name: t.name, role: t.role, quote: t.quote, rating: t.rating }))
 
   // CTA
   const ctaHeading = home?.ctaHeading || "Ready to Start Your Journey?"
@@ -147,20 +157,22 @@ export default async function HomePage() {
       {/* Highlights */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <Reveal className="text-center mb-16">
             <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">{highlightsLabel}</p>
             <h2 className="font-serif text-4xl font-bold text-stone-900">{highlightsHeading}</h2>
-          </div>
+          </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {highlights.map((item: any) => (
-              <div key={item.title} className="text-center group">
-                <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
-                  <item.Icon className="h-8 w-8 text-blue-900" />
+            {highlights.map((item: any, i: number) => (
+              <Reveal key={item.title} delay={i * 120}>
+                <div className="text-center group">
+                  <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 group-hover:scale-110 transition-all duration-300">
+                    <item.Icon className="h-8 w-8 text-blue-900" />
+                  </div>
+                  <h3 className="font-semibold text-stone-900 mb-2">{item.title}</h3>
+                  <p className="text-stone-500 text-sm leading-relaxed">{item.description}</p>
                 </div>
-                <h3 className="font-semibold text-stone-900 mb-2">{item.title}</h3>
-                <p className="text-stone-500 text-sm leading-relaxed">{item.description}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -170,7 +182,7 @@ export default async function HomePage() {
       <section className="py-24 section-pattern">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
+            <Reveal>
               <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">{storyLabel}</p>
               <h2 className="font-serif text-4xl font-bold text-stone-900 mb-6">{storyHeading}</h2>
               {hasStoryContent ? (
@@ -192,18 +204,22 @@ export default async function HomePage() {
                   Learn Our Story <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
-            </div>
-            <div className="relative">
-              <img
-                src={storyImage}
-                alt="Horse and rider"
-                className="rounded-2xl shadow-2xl w-full h-[500px] object-cover"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-blue-900 text-white rounded-xl p-6 shadow-lg">
-                <div className="text-3xl font-bold font-serif">{storyStatNumber}</div>
-                <div className="text-sm text-blue-200">{storyStatLabel}</div>
+            </Reveal>
+            <Reveal delay={150}>
+              <div className="relative group">
+                <img
+                  src={storyImage}
+                  alt="Horse and rider"
+                  className="rounded-2xl shadow-2xl w-full h-[500px] object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+                <div className="absolute -bottom-6 -left-6 bg-[#13233f] text-white rounded-xl p-6 shadow-lg">
+                  <div className="text-3xl font-bold font-serif">
+                    <Counter value={storyStatNumber} />
+                  </div>
+                  <div className="text-sm text-blue-200">{storyStatLabel}</div>
+                </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -211,13 +227,14 @@ export default async function HomePage() {
       {/* Services preview */}
       <section className="py-24 bg-stone-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <Reveal className="text-center mb-16">
             <p className="text-amber-400 uppercase tracking-widest text-xs font-semibold mb-3">{servicesLabel}</p>
             <h2 className="font-serif text-4xl font-bold text-white">{servicesHeading}</h2>
-          </div>
+          </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {servicesPreview.map((s) => (
-              <Card key={s.title} className="bg-stone-800 border-stone-700 hover:border-amber-600 transition-colors group">
+            {servicesPreview.map((s, i) => (
+              <Reveal key={s.title} delay={i * 120}>
+              <Card className="h-full bg-stone-800 border-stone-700 hover:border-amber-600 hover:-translate-y-1.5 transition-all duration-300 group">
                 <CardContent className="p-6">
                   <h3 className="font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">{s.title}</h3>
                   {s.isPortable ? (
@@ -228,10 +245,11 @@ export default async function HomePage() {
                     <p className="text-stone-400 text-sm mb-4 leading-relaxed">{s.description}</p>
                   )}
                   <Link href={s.href} className="text-amber-400 text-sm hover:text-amber-300 flex items-center gap-1">
-                    Learn more <ChevronRight className="h-3 w-3" />
+                    Learn more <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </CardContent>
               </Card>
+              </Reveal>
             ))}
           </div>
           <div className="text-center mt-10">
@@ -244,9 +262,24 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Testimonials carousel */}
+      {testimonials.length > 0 && (
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Reveal className="text-center mb-12">
+              <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">What Our Riders Say</p>
+              <h2 className="font-serif text-4xl font-bold text-stone-900">Testimonials</h2>
+            </Reveal>
+            <Reveal delay={150}>
+              <TestimonialRotator testimonials={testimonials} />
+            </Reveal>
+          </div>
+        </section>
+      )}
+
       {/* CTA */}
       <section className="py-20 bg-[#13233f]">
-        <div className="max-w-3xl mx-auto px-4 text-center">
+        <Reveal className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="font-serif text-4xl font-bold text-white mb-4">{ctaHeading}</h2>
           <p className="text-blue-100 mb-8 text-lg">
             {ctaDescription}
@@ -261,7 +294,7 @@ export default async function HomePage() {
               </Button>
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
 
     </>
