@@ -7,7 +7,9 @@ import { getSiteSettings, getHeroImageUrl, getHomePage, getServices, getTestimon
 import { urlFor } from "@/lib/sanity/client"
 import { Reveal } from "@/components/ux/Reveal"
 import { Counter } from "@/components/ux/Counter"
+import { ParallaxBackground } from "@/components/ux/ParallaxBackground"
 import { TestimonialRotator, type RotatorTestimonial } from "@/components/home/TestimonialRotator"
+import { LogoMarquee, type MarqueeItem } from "@/components/home/LogoMarquee"
 
 const iconMap: Record<string, LucideIcon> = {
   Award,
@@ -103,6 +105,23 @@ export default async function HomePage() {
       }))
     : fallbackServicesPreview.map((s) => ({ ...s, isPortable: false }))
 
+  // Partner / association logo strip
+  const fallbackPartners: MarqueeItem[] = [
+    { name: "NCDCTA" },
+    { name: "USDF" },
+    { name: "US Equestrian" },
+    { name: "USHJA" },
+    { name: "NCHJA" },
+  ]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const partners: MarqueeItem[] = settings?.partnerLogos?.length > 0
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ? settings.partnerLogos.map((l: any) => ({
+        name: l.name || "",
+        src: l.asset ? urlFor(l).height(96).quality(85).url() : undefined,
+      }))
+    : fallbackPartners
+
   // Testimonials carousel
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const testimonials: RotatorTestimonial[] = (cmsTestimonials || [])
@@ -118,10 +137,7 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('${heroImage}')` }}
-        />
+        <ParallaxBackground imageUrl={heroImage} />
         <div className="hero-gradient absolute inset-0" />
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <p className="text-amber-400 uppercase tracking-[0.3em] text-sm font-medium mb-4 animate-fade-in">
@@ -151,6 +167,16 @@ export default async function HomePage() {
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
+        </div>
+      </section>
+
+      {/* Partner / association logo strip */}
+      <section className="py-10 bg-white border-b border-stone-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-xs uppercase tracking-widest text-stone-400 font-semibold mb-6">
+            Proudly Affiliated With
+          </p>
+          <LogoMarquee items={partners} />
         </div>
       </section>
 

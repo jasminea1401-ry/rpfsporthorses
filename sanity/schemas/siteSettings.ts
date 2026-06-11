@@ -20,5 +20,19 @@ fields: [
       type: "array",
       of: [{ type: "image", options: { hotspot: true } }],
     }),
+    defineField({
+      name: "partnerLogos",
+      title: "Partner / Association Logos",
+      description: "Logos shown in the scrolling strip on the home page (e.g. NCDCTA, USDF, USEF).",
+      type: "array",
+      of: [
+        defineField({
+          name: "logo",
+          title: "Logo",
+          type: "image",
+          fields: [defineField({ name: "name", title: "Organization Name", type: "string" })],
+        }),
+      ],
+    }),
   ],
 })

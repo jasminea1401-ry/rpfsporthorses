@@ -5,7 +5,7 @@ const FALLBACK_HERO = "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a
 export async function getSiteSettings() {
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "siteSettings"][0]{ barnName, tagline, logo, heroImages, phone, email, address, facebook, instagram }`,
+      `*[_type == "siteSettings"][0]{ barnName, tagline, logo, heroImages, partnerLogos, phone, email, address, facebook, instagram }`,
       {},
       { next: { revalidate: 60 } }
     )
