@@ -60,7 +60,7 @@ export default async function AwardsPage() {
       </section>
 
       {/* Stats */}
-      <section className="py-16 bg-blue-900">
+      <section className="py-16 bg-[#13233f]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}

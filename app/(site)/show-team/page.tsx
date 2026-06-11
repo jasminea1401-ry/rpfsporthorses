@@ -138,7 +138,7 @@ export default async function ShowTeamPage() {
       </section>
 
       {/* Join CTA */}
-      <section className="py-20 bg-blue-900">
+      <section className="py-20 bg-[#13233f]">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="font-serif text-3xl font-bold text-white mb-4">{ctaHeading}</h2>
           <p className="text-blue-100 mb-8">

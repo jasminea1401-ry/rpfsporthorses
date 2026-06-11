@@ -112,7 +112,7 @@ export function TrialForm({ heroEyebrow, heroHeading, heroSubheading, features, 
       </section>
 
       {/* Features */}
-      <section className="py-10 bg-blue-900">
+      <section className="py-10 bg-[#13233f]">
         <div className="max-w-4xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
           {features.map(({ text, icon }, i) => {
             const Icon = (icon && featureIconMap[icon]) || featureIcons[i % featureIcons.length]
