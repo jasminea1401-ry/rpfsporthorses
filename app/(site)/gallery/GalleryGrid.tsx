@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
+import { Reveal } from "@/components/ux/Reveal"
 
 const categories = ["All", "Show Series", "Regionals", "Lessons/Training", "Others"]
 
@@ -68,18 +69,18 @@ export function GalleryGrid({ images }: { images: GalleryItem[] }) {
               {horizontal.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {horizontal.map((img, i) => (
-                    <div key={i} className="aspect-[4/3]">
+                    <Reveal key={`${activeCategory}-${i}`} delay={(i % 3) * 100} className="aspect-[4/3]">
                       <ImageTile img={img} onClick={() => setLightbox(img.src)} />
-                    </div>
+                    </Reveal>
                   ))}
                 </div>
               )}
               {vertical.length > 0 && (
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                   {vertical.map((img, i) => (
-                    <div key={i} className="aspect-[3/4]">
+                    <Reveal key={`${activeCategory}-${i}`} delay={(i % 4) * 100} className="aspect-[3/4]">
                       <ImageTile img={img} onClick={() => setLightbox(img.src)} />
-                    </div>
+                    </Reveal>
                   ))}
                 </div>
               )}

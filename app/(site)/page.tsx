@@ -204,7 +204,7 @@ export default async function HomePage() {
       </section>
 
       {/* About teaser */}
-      <section className="py-24 section-pattern">
+      <section className="py-24 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <Reveal>
@@ -255,10 +255,10 @@ export default async function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal className="text-center mb-12">
               <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">Life at RPF</p>
-              <h2 className="font-serif text-4xl font-bold text-stone-900">Moments From the Barn</h2>
+              <h2 className="font-serif text-4xl font-bold text-stone-900">RPF Moments</h2>
             </Reveal>
             <Reveal delay={150}>
-              <div className="relative h-[420px] sm:h-[520px] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative h-[320px] sm:h-[400px] max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl">
                 <MediaLoop videoUrl={heroVideo} images={mediaLoopImages} />
               </div>
             </Reveal>

@@ -5,8 +5,11 @@ export type MarqueeItem = {
 
 export function LogoMarquee({ items }: { items: MarqueeItem[] }) {
   if (items.length === 0) return null
-  // Content is rendered twice so the loop is seamless
-  const loop = [...items, ...items]
+  // Repeat short lists so the strip always fills the full width,
+  // then render the set twice so the loop is seamless
+  const base: MarqueeItem[] = []
+  while (base.length < 8) base.push(...items)
+  const loop = [...base, ...base]
 
   return (
     <div className="marquee group relative overflow-hidden">
