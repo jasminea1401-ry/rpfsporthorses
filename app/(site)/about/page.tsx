@@ -107,7 +107,7 @@ export default async function AboutPage() {
                     <h3 className="font-serif text-xl font-bold text-stone-900">{t.name}</h3>
                     {t.title && <div className="text-amber-600 text-sm font-medium mb-3">{t.title}</div>}
                     {Array.isArray(t.bio) && t.bio.length > 0 && (
-                      <div className="text-stone-500 text-sm leading-relaxed space-y-2 max-h-52 overflow-y-auto pr-2">
+                      <div className="text-stone-500 text-sm leading-relaxed space-y-2 max-h-80 overflow-y-auto pr-2">
                         <PortableText value={t.bio} />
                       </div>
                     )}

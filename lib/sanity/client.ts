@@ -10,6 +10,9 @@ export const sanityClient = createClient({
   apiVersion: "2024-01-01",
   useCdn: true,
   token: process.env.SANITY_API_READ_TOKEN,
+  // Only published documents — a token fetch without this also returns
+  // drafts, duplicating cards while an entry has unpublished edits
+  perspective: "published",
 })
 
 const builder = imageUrlBuilder(sanityClient)
