@@ -3,7 +3,7 @@ import { PortableText } from "@portabletext/react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Award, Users, Calendar, Star, Heart, Shield, CheckCircle, MapPin, ChevronRight, type LucideIcon } from "lucide-react"
-import { getSiteSettings, getHeroImageUrl, getHomePage, getServices, getTestimonials } from "@/lib/sanity/queries"
+import { getSiteSettings, getHeroImageUrl, getHomePage, getServices, getTestimonials, getGalleryImages } from "@/lib/sanity/queries"
 import { urlFor } from "@/lib/sanity/client"
 import { Reveal } from "@/components/ux/Reveal"
 import { Counter } from "@/components/ux/Counter"
@@ -54,21 +54,22 @@ const fallbackServicesPreview = [
 ]
 
 export default async function HomePage() {
-  const [settings, home, cmsServices, cmsTestimonials] = await Promise.all([
+  const [settings, home, cmsServices, cmsTestimonials, galleryImages] = await Promise.all([
     getSiteSettings(),
     getHomePage(),
     getServices(),
     getTestimonials(),
+    getGalleryImages(),
   ])
   const heroImage = getHeroImageUrl(settings)
-  // All hero images for the rotating loop (falls back to the single hero image)
+  // Images for the rotating media loop section (gallery photos, newest first)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const heroImageUrls: string[] = settings?.heroImages?.length > 0
+  const mediaLoopImages: string[] = (galleryImages || [])
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ? settings.heroImages
-        .filter((img: any) => img?.asset)
-        .map((img: any) => urlFor(img).width(1920).quality(85).url())
-    : [heroImage]
+    .filter((img: any) => img.image?.asset)
+    .slice(0, 6)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((img: any) => urlFor(img.image).width(1600).quality(85).url())
   const heroVideo: string | null = settings?.heroVideo || null
 
   // Hero
@@ -145,9 +146,7 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <ParallaxBackground>
-          <MediaLoop videoUrl={heroVideo} images={heroImageUrls.length > 0 ? heroImageUrls : [heroImage]} />
-        </ParallaxBackground>
+        <ParallaxBackground imageUrl={heroImage} />
         <div className="hero-gradient absolute inset-0" />
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <p className="text-amber-400 uppercase tracking-[0.3em] text-sm font-medium mb-4 animate-fade-in">
@@ -249,6 +248,28 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Media loop showcase */}
+      {(heroVideo || mediaLoopImages.length > 0) && (
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Reveal className="text-center mb-12">
+              <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">Life at RPF</p>
+              <h2 className="font-serif text-4xl font-bold text-stone-900">Moments From the Barn</h2>
+            </Reveal>
+            <Reveal delay={150}>
+              <div className="relative h-[420px] sm:h-[520px] rounded-2xl overflow-hidden shadow-2xl">
+                <MediaLoop videoUrl={heroVideo} images={mediaLoopImages} />
+              </div>
+            </Reveal>
+            <div className="text-center mt-8">
+              <Link href="/gallery" className="text-sm text-blue-800 hover:underline">
+                View the full gallery →
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Services preview */}
       <section className="py-24 bg-stone-900">
