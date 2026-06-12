@@ -108,10 +108,8 @@ export default async function HomePage() {
   // Partner / association logo strip
   const fallbackPartners: MarqueeItem[] = [
     { name: "NCDCTA" },
+    { name: "Royal Equine" },
     { name: "USDF" },
-    { name: "US Equestrian" },
-    { name: "USHJA" },
-    { name: "NCHJA" },
   ]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const partners: MarqueeItem[] = settings?.partnerLogos?.length > 0
@@ -167,16 +165,6 @@ export default async function HomePage() {
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
-        </div>
-      </section>
-
-      {/* Partner / association logo strip */}
-      <section className="py-10 bg-white border-b border-stone-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-xs uppercase tracking-widest text-stone-400 font-semibold mb-6">
-            Proudly Affiliated With
-          </p>
-          <LogoMarquee items={partners} />
         </div>
       </section>
 
@@ -302,6 +290,16 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Partner / association logo strip */}
+      <section className="py-12 bg-white border-t border-stone-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-xs uppercase tracking-widest text-stone-400 font-semibold mb-6">
+            Proudly Affiliated With
+          </p>
+          <LogoMarquee items={partners} />
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="py-20 bg-[#13233f]">
