@@ -9,6 +9,7 @@ import { Reveal } from "@/components/ux/Reveal"
 import { Counter } from "@/components/ux/Counter"
 import { ParallaxBackground } from "@/components/ux/ParallaxBackground"
 import { MediaLoop } from "@/components/ux/MediaLoop"
+import { HeroSequence } from "@/components/ux/HeroSequence"
 import { TestimonialRotator, type RotatorTestimonial } from "@/components/home/TestimonialRotator"
 import { LogoMarquee, type MarqueeItem } from "@/components/home/LogoMarquee"
 
@@ -70,7 +71,7 @@ export default async function HomePage() {
     .slice(0, 6)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .map((img: any) => urlFor(img.image).width(1600).quality(85).url())
-  const heroVideo: string | null = settings?.heroVideo || null
+  const heroVideo: string | null = settings?.heroVideoFileUrl || settings?.heroVideo || null
 
   // Hero
   const heroTagline = home?.heroTagline || "Raeford, North Carolina"
@@ -146,7 +147,9 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <ParallaxBackground imageUrl={heroImage} />
+        <ParallaxBackground>
+          <HeroSequence imageUrl={heroImage} videoUrl={heroVideo} imageDurationMs={10000} />
+        </ParallaxBackground>
         <div className="hero-gradient absolute inset-0" />
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <p className="text-amber-400 uppercase tracking-[0.3em] text-sm font-medium mb-4 animate-fade-in">
@@ -250,7 +253,7 @@ export default async function HomePage() {
       </section>
 
       {/* Media loop showcase */}
-      {(heroVideo || mediaLoopImages.length > 0) && (
+      {mediaLoopImages.length > 0 && (
         <section className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal className="text-center mb-12">
@@ -259,7 +262,7 @@ export default async function HomePage() {
             </Reveal>
             <Reveal delay={150}>
               <div className="relative h-[320px] sm:h-[400px] max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-stone-900">
-                <MediaLoop videoUrl={heroVideo} images={mediaLoopImages} />
+                <MediaLoop images={mediaLoopImages} />
               </div>
             </Reveal>
             <div className="text-center mt-8">

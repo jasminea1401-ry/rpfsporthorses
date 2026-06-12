@@ -15,6 +15,13 @@ fields: [
     defineField({ name: "instagram", title: "Instagram URL", type: "url" }),
     defineField({ name: "heroVideo", title: "Hero Video URL", type: "url" }),
     defineField({
+      name: "heroVideoFile",
+      title: "Hero Video File",
+      description: "Upload an .mp4 — the hero shows the image for 10 seconds, plays this video, then repeats. Takes priority over Hero Video URL.",
+      type: "file",
+      options: { accept: "video/*" },
+    }),
+    defineField({
       name: "heroImages",
       title: "Hero Images",
       type: "array",
