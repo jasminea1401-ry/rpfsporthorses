@@ -312,17 +312,53 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials carousel */}
+      {/* Testimonials */}
       {testimonials.length > 0 && (
-        <section className="py-14 bg-white">
+        <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Reveal className="text-center mb-8">
-              <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">What Our Riders Say</p>
-              <h2 className="font-serif text-4xl font-bold text-stone-900">Testimonials</h2>
-            </Reveal>
-            <Reveal delay={150}>
-              <TestimonialRotator testimonials={testimonials} />
-            </Reveal>
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-center">
+              <Reveal className="lg:col-span-2">
+                <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">What Our Riders Say</p>
+                <h2 className="font-serif text-4xl font-bold text-stone-900 mb-4">Testimonials</h2>
+                <p className="text-stone-500 leading-relaxed mb-6">
+                  Real words from the riders, owners, and families who call RPF home — from first lessons to championship rings.
+                </p>
+                {(() => {
+                  const rated = testimonials.filter((t) => t.rating)
+                  if (rated.length === 0) return null
+                  const avg = rated.reduce((sum, t) => sum + (t.rating || 0), 0) / rated.length
+                  const rounded = Math.round(avg * 10) / 10
+                  return (
+                    <div className="flex items-center gap-3 mb-8">
+                      <div className="flex gap-0.5">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`h-5 w-5 ${i < Math.round(avg) ? "text-amber-500 fill-amber-500" : "text-stone-200"}`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm text-stone-500">
+                        <span className="font-semibold text-stone-900">{rounded}</span> from {rated.length} rider review{rated.length === 1 ? "" : "s"}
+                      </span>
+                    </div>
+                  )
+                })()}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link href="/testimonials">
+                    <Button variant="outline">Read All Testimonials</Button>
+                  </Link>
+                  <Link href="/trial">
+                    <Button variant="gold">Book a Trial Lesson</Button>
+                  </Link>
+                </div>
+              </Reveal>
+              <Reveal delay={150} className="lg:col-span-3">
+                <div className="relative bg-stone-50 border border-stone-100 rounded-2xl p-8 sm:p-10">
+                  <TestimonialRotator testimonials={testimonials} />
+                </div>
+              </Reveal>
+            </div>
           </div>
         </section>
       )}

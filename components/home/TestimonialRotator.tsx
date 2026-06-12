@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from "react"
-import Link from "next/link"
 import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -86,11 +85,6 @@ export function TestimonialRotator({ testimonials }: { testimonials: RotatorTest
         </div>
       )}
 
-      <div className="mt-5">
-        <Link href="/testimonials" className="text-sm text-blue-800 hover:underline">
-          Read all testimonials →
-        </Link>
-      </div>
     </div>
   )
 }
