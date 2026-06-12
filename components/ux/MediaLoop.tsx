@@ -48,9 +48,8 @@ export function MediaLoop({
         <div
           key={src}
           className={cn(
-            "absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-[1500ms] ease-in-out",
-            i === index ? "opacity-100" : "opacity-0",
-            !reducedMotion && i === index && "animate-ken-burns"
+            "absolute inset-0 bg-contain bg-center bg-no-repeat transition-opacity duration-[1500ms] ease-in-out",
+            i === index ? "opacity-100" : "opacity-0"
           )}
           style={{ backgroundImage: `url('${src}')` }}
         />

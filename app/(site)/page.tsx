@@ -258,7 +258,7 @@ export default async function HomePage() {
               <h2 className="font-serif text-4xl font-bold text-stone-900">RPF Moments</h2>
             </Reveal>
             <Reveal delay={150}>
-              <div className="relative h-[320px] sm:h-[400px] max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative h-[320px] sm:h-[400px] max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-stone-900">
                 <MediaLoop videoUrl={heroVideo} images={mediaLoopImages} />
               </div>
             </Reveal>
@@ -311,9 +311,9 @@ export default async function HomePage() {
 
       {/* Testimonials carousel */}
       {testimonials.length > 0 && (
-        <section className="py-24 bg-white">
+        <section className="py-14 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Reveal className="text-center mb-12">
+            <Reveal className="text-center mb-8">
               <p className="text-amber-600 uppercase tracking-widest text-xs font-semibold mb-3">What Our Riders Say</p>
               <h2 className="font-serif text-4xl font-bold text-stone-900">Testimonials</h2>
             </Reveal>

@@ -32,7 +32,7 @@ export function TestimonialRotator({ testimonials }: { testimonials: RotatorTest
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <Quote className="h-10 w-10 text-amber-500 mx-auto mb-6" />
+      <Quote className="h-8 w-8 text-amber-500 mx-auto mb-4" />
       <div key={index} className="animate-fade-in">
         {t.rating && (
           <div className="flex justify-center gap-1 mb-4">
@@ -47,7 +47,7 @@ export function TestimonialRotator({ testimonials }: { testimonials: RotatorTest
             ))}
           </div>
         )}
-        <blockquote className="font-serif text-2xl sm:text-3xl text-stone-900 leading-snug mb-6">
+        <blockquote className="font-serif text-2xl sm:text-3xl text-stone-900 leading-snug mb-4">
           &ldquo;{t.quote}&rdquo;
         </blockquote>
         <div className="font-semibold text-stone-900">{t.name}</div>
@@ -55,7 +55,7 @@ export function TestimonialRotator({ testimonials }: { testimonials: RotatorTest
       </div>
 
       {testimonials.length > 1 && (
-        <div className="flex items-center justify-center gap-4 mt-8">
+        <div className="flex items-center justify-center gap-4 mt-6">
           <button
             aria-label="Previous testimonial"
             onClick={() => setIndex((index - 1 + testimonials.length) % testimonials.length)}
@@ -86,7 +86,7 @@ export function TestimonialRotator({ testimonials }: { testimonials: RotatorTest
         </div>
       )}
 
-      <div className="mt-8">
+      <div className="mt-5">
         <Link href="/testimonials" className="text-sm text-blue-800 hover:underline">
           Read all testimonials →
         </Link>

@@ -67,8 +67,10 @@ export default async function ShowTeamPage() {
         bio: m.bio,
         achievements: m.achievements || [],
         photo: m.photo?.asset
-          ? urlFor(m.photo).width(400).height(400).quality(85).url()
-          : "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=400&auto=format&fit=crop",
+          ? urlFor(m.photo).width(600).height(400).fit("crop").quality(85).url()
+          : m.horsePhoto?.asset
+            ? urlFor(m.horsePhoto).width(600).height(400).fit("crop").quality(85).url()
+            : "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=400&auto=format&fit=crop",
       }))
     : fallbackTeam.map((m) => ({ ...m, key: m.name }))
 
