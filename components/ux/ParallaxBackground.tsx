@@ -1,7 +1,13 @@
 "use client"
 import { useEffect, useRef } from "react"
 
-export function ParallaxBackground({ imageUrl }: { imageUrl: string }) {
+export function ParallaxBackground({
+  imageUrl,
+  children,
+}: {
+  imageUrl?: string
+  children?: React.ReactNode
+}) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -27,8 +33,10 @@ export function ParallaxBackground({ imageUrl }: { imageUrl: string }) {
   return (
     <div
       ref={ref}
-      className="absolute inset-0 -bottom-40 bg-cover bg-center bg-no-repeat will-change-transform"
-      style={{ backgroundImage: `url('${imageUrl}')` }}
-    />
+      className="absolute inset-0 -bottom-40 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
+      style={imageUrl ? { backgroundImage: `url('${imageUrl}')` } : undefined}
+    >
+      {children}
+    </div>
   )
 }

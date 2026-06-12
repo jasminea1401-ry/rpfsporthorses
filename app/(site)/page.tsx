@@ -8,6 +8,7 @@ import { urlFor } from "@/lib/sanity/client"
 import { Reveal } from "@/components/ux/Reveal"
 import { Counter } from "@/components/ux/Counter"
 import { ParallaxBackground } from "@/components/ux/ParallaxBackground"
+import { MediaLoop } from "@/components/ux/MediaLoop"
 import { TestimonialRotator, type RotatorTestimonial } from "@/components/home/TestimonialRotator"
 import { LogoMarquee, type MarqueeItem } from "@/components/home/LogoMarquee"
 
@@ -60,6 +61,15 @@ export default async function HomePage() {
     getTestimonials(),
   ])
   const heroImage = getHeroImageUrl(settings)
+  // All hero images for the rotating loop (falls back to the single hero image)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const heroImageUrls: string[] = settings?.heroImages?.length > 0
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ? settings.heroImages
+        .filter((img: any) => img?.asset)
+        .map((img: any) => urlFor(img).width(1920).quality(85).url())
+    : [heroImage]
+  const heroVideo: string | null = settings?.heroVideo || null
 
   // Hero
   const heroTagline = home?.heroTagline || "Raeford, North Carolina"
@@ -135,7 +145,9 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <ParallaxBackground imageUrl={heroImage} />
+        <ParallaxBackground>
+          <MediaLoop videoUrl={heroVideo} images={heroImageUrls.length > 0 ? heroImageUrls : [heroImage]} />
+        </ParallaxBackground>
         <div className="hero-gradient absolute inset-0" />
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <p className="text-amber-400 uppercase tracking-[0.3em] text-sm font-medium mb-4 animate-fade-in">
