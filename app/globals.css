@@ -3,6 +3,19 @@
 @theme {
   --font-serif: var(--font-playfair), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+
+  /* Brand accent — refined metallic gold (replaces Tailwind's orange amber) */
+  --color-amber-50: #fbf7ea;
+  --color-amber-100: #f4ecca;
+  --color-amber-200: #e9d9a0;
+  --color-amber-300: #ddc674;
+  --color-amber-400: #d2b04a;
+  --color-amber-500: #c19a33;
+  --color-amber-600: #a37e2a;
+  --color-amber-700: #836424;
+  --color-amber-800: #695020;
+  --color-amber-900: #58431e;
+  --color-amber-950: #332710;
 }
 
 :root {
@@ -10,7 +23,7 @@
   --foreground: #0f0f0f;
   --cream: #f5efe6;
   --navy: #1e3a8a;
-  --gold: #d4a017;
+  --gold: #c19a33;
 }
 
 body {
