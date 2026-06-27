@@ -33,6 +33,8 @@ export default defineConfig({
             S.documentTypeListItem("showTeamMember").title("Show Team"),
             S.documentTypeListItem("lessonHorse").title("Lesson Horses"),
             S.documentTypeListItem("testimonial").title("Testimonials"),
+            S.documentTypeListItem("newsPost").title("News / Latest"),
+            S.documentTypeListItem("event").title("Events"),
           ]),
     }),
     visionTool(),

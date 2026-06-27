@@ -3,7 +3,7 @@ import { PortableText } from "@portabletext/react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Award, Users, Calendar, Star, Heart, Shield, CheckCircle, MapPin, ChevronRight, type LucideIcon } from "lucide-react"
-import { getSiteSettings, getHeroImageUrl, getHomePage, getServices, getTestimonials, getGalleryImages } from "@/lib/sanity/queries"
+import { getSiteSettings, getHeroImageUrl, getHomePage, getServices, getTestimonials, getGalleryImages, getUpcomingEvents } from "@/lib/sanity/queries"
 import { urlFor } from "@/lib/sanity/client"
 import { Reveal } from "@/components/ux/Reveal"
 import { Counter } from "@/components/ux/Counter"
@@ -12,6 +12,7 @@ import { MediaLoop } from "@/components/ux/MediaLoop"
 import { HeroSequence } from "@/components/ux/HeroSequence"
 import { TestimonialRotator, type RotatorTestimonial } from "@/components/home/TestimonialRotator"
 import { LogoMarquee, type MarqueeItem } from "@/components/home/LogoMarquee"
+import { UpcomingEvents, type EventItem } from "@/components/home/UpcomingEvents"
 
 const iconMap: Record<string, LucideIcon> = {
   Award,
@@ -55,12 +56,13 @@ const fallbackServicesPreview = [
 ]
 
 export default async function HomePage() {
-  const [settings, home, cmsServices, cmsTestimonials, galleryImages] = await Promise.all([
+  const [settings, home, cmsServices, cmsTestimonials, galleryImages, upcomingEvents] = await Promise.all([
     getSiteSettings(),
     getHomePage(),
     getServices(),
     getTestimonials(),
     getGalleryImages(),
+    getUpcomingEvents(),
   ])
   const heroImage = getHeroImageUrl(settings)
   // Images for the rotating media loop section (gallery photos, newest first)
@@ -311,6 +313,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Upcoming events */}
+      <UpcomingEvents events={upcomingEvents as EventItem[]} />
 
       {/* Testimonials */}
       {testimonials.length > 0 && (

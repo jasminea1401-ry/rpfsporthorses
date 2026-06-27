@@ -127,6 +127,49 @@ export async function getTestimonials(): Promise<any[]> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getNewsPosts(): Promise<any[]> {
+  try {
+    const data = await sanityClient.fetch(
+      `*[_type == "newsPost"] | order(date desc, _createdAt desc){ _id, title, "slug": slug.current, date, category, coverImage, excerpt }`,
+      {},
+      { next: { revalidate: 60 } }
+    )
+    return data || []
+  } catch {
+    return []
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getNewsPostBySlug(slug: string): Promise<any | null> {
+  try {
+    const data = await sanityClient.fetch(
+      `*[_type == "newsPost" && slug.current == $slug][0]{ _id, title, "slug": slug.current, date, category, coverImage, excerpt, body }`,
+      { slug },
+      { next: { revalidate: 60 } }
+    )
+    return data || null
+  } catch {
+    return null
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getUpcomingEvents(): Promise<any[]> {
+  try {
+    const today = new Date().toISOString().slice(0, 10)
+    const data = await sanityClient.fetch(
+      `*[_type == "event" && coalesce(endDate, date) >= $today] | order(date asc){ _id, title, eventType, date, endDate, location, description, link }`,
+      { today },
+      { next: { revalidate: 60 } }
+    )
+    return data || []
+  } catch {
+    return []
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getTrainers(): Promise<any[]> {
   try {
     const data = await sanityClient.fetch(
