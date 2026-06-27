@@ -96,13 +96,12 @@ export function UpcomingEvents({ events }: { events: EventItem[] }) {
         </div>
 
         <Reveal delay={120}>
-          <div className="mt-8 rounded-2xl bg-[#13233f] px-6 py-7 sm:px-10 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
-            <div>
-              <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">Want to join us in the ring?</h3>
-              <p className="text-blue-200 text-sm mt-1">Start with a trial lesson — riders of all levels are welcome.</p>
-            </div>
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-x-4 gap-y-3 text-center">
+            <p className="text-stone-600 text-sm">
+              Want to join us in the ring? Riders of all levels are welcome.
+            </p>
             <Link href="/trial" className="shrink-0">
-              <Button variant="gold" size="lg">Book a Trial Lesson</Button>
+              <Button variant="gold" size="sm">Book a Trial Lesson</Button>
             </Link>
           </div>
         </Reveal>
