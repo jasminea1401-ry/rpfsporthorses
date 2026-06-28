@@ -46,9 +46,11 @@ export function TestimonialRotator({ testimonials }: { testimonials: RotatorTest
             ))}
           </div>
         )}
-        <blockquote className="font-serif text-2xl sm:text-3xl text-stone-900 leading-snug mb-4">
-          &ldquo;{t.quote}&rdquo;
-        </blockquote>
+        <div className="min-h-[170px] flex items-center justify-center mb-4">
+          <blockquote className="font-serif text-xl sm:text-2xl text-stone-900 leading-snug line-clamp-5">
+            &ldquo;{t.quote}&rdquo;
+          </blockquote>
+        </div>
         <div className="font-semibold text-stone-900">{t.name}</div>
         {t.role && <div className="text-sm text-stone-500">{t.role}</div>}
       </div>
