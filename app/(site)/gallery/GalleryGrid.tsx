@@ -67,18 +67,26 @@ export function GalleryGrid({ images }: { images: GalleryItem[] }) {
           ) : (
             <div className="space-y-4">
               {horizontal.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="flex flex-wrap justify-center gap-4">
                   {horizontal.map((img, i) => (
-                    <Reveal key={`${activeCategory}-${i}`} delay={(i % 3) * 100} className="aspect-[4/3]">
+                    <Reveal
+                      key={`${activeCategory}-${i}`}
+                      delay={(i % 3) * 100}
+                      className="aspect-[4/3] w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]"
+                    >
                       <ImageTile img={img} onClick={() => setLightbox(img.src)} />
                     </Reveal>
                   ))}
                 </div>
               )}
               {vertical.length > 0 && (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="flex flex-wrap justify-center gap-4">
                   {vertical.map((img, i) => (
-                    <Reveal key={`${activeCategory}-${i}`} delay={(i % 4) * 100} className="aspect-[3/4]">
+                    <Reveal
+                      key={`${activeCategory}-${i}`}
+                      delay={(i % 4) * 100}
+                      className="aspect-[3/4] w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.667rem)] lg:w-[calc(25%-0.75rem)]"
+                    >
                       <ImageTile img={img} onClick={() => setLightbox(img.src)} />
                     </Reveal>
                   ))}
