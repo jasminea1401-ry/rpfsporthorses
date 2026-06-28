@@ -73,13 +73,6 @@ export default async function TestimonialsPage() {
         }))
       : fallbackTestimonials
 
-  // Feature the most substantial testimonial (longest quote) up top
-  const featured = testimonials.reduce(
-    (best, t) => ((t.quote?.length || 0) > (best?.quote?.length || 0) ? t : best),
-    testimonials[0]
-  )
-  const rest = testimonials.filter((t) => t.key !== featured?.key)
-
   const heroEyebrow = page?.hero?.eyebrow || "What Our Riders Say"
   const heroHeading = page?.hero?.heading || "Testimonials"
   const heroSubheading =
@@ -98,56 +91,28 @@ export default async function TestimonialsPage() {
 
       <section className="py-20 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Featured testimonial */}
-          {featured && featured.quote && (
-            <Reveal>
-              <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 mb-12 bg-white rounded-3xl overflow-hidden shadow-md border border-stone-100">
-                <div className="lg:col-span-2 relative min-h-[280px] bg-[#13233f]">
-                  {featured.photo ? (
-                    <img src={featured.photo} alt={featured.name} className="absolute inset-0 w-full h-full object-cover" />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Avatar photo={null} name={featured.name} size={140} />
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.key} delay={(i % 3) * 100} className="break-inside-avoid mb-6">
+                <div className="bg-white rounded-2xl border border-stone-100 p-7 hover:shadow-lg transition-shadow">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Avatar photo={t.photo} name={t.name} size={52} />
+                    <div className="min-w-0">
+                      <div className="font-semibold text-stone-900 truncate">{t.name}</div>
+                      {t.role && <div className="text-sm text-stone-500 truncate">{t.role}</div>}
                     </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-3">
+                    <Stars rating={t.rating} />
+                    <Quote className="h-5 w-5 text-amber-300" />
+                  </div>
+                  {t.quote && (
+                    <p className="text-stone-600 leading-relaxed italic">&ldquo;{t.quote}&rdquo;</p>
                   )}
                 </div>
-                <div className="lg:col-span-3 p-8 sm:p-12 flex flex-col justify-center">
-                  <Quote className="h-10 w-10 text-amber-400 mb-5" />
-                  <Stars rating={featured.rating} />
-                  <blockquote className="font-serif text-xl sm:text-2xl text-stone-800 leading-relaxed mt-4 mb-6">
-                    &ldquo;{featured.quote}&rdquo;
-                  </blockquote>
-                  <div>
-                    <div className="font-semibold text-stone-900">{featured.name}</div>
-                    {featured.role && <div className="text-sm text-stone-500">{featured.role}</div>}
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          )}
-
-          {/* Masonry of the rest */}
-          {rest.length > 0 && (
-            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
-              {rest.map((t, i) => (
-                <Reveal key={t.key} delay={(i % 3) * 100} className="break-inside-avoid mb-6">
-                  <div className="bg-white rounded-2xl border border-stone-100 p-7 hover:shadow-lg transition-shadow">
-                    <div className="flex items-center gap-3 mb-4">
-                      <Avatar photo={t.photo} name={t.name} size={52} />
-                      <div className="min-w-0">
-                        <div className="font-semibold text-stone-900 truncate">{t.name}</div>
-                        {t.role && <div className="text-sm text-stone-500 truncate">{t.role}</div>}
-                      </div>
-                    </div>
-                    <Stars rating={t.rating} />
-                    {t.quote && (
-                      <p className="text-stone-600 leading-relaxed mt-3 italic">&ldquo;{t.quote}&rdquo;</p>
-                    )}
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          )}
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
     </>
