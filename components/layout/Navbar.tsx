@@ -17,12 +17,13 @@ const navLinks = [
       { href: "/about", label: "About Us" },
       { href: "/show-team", label: "Show Team" },
       { href: "/lesson-horses", label: "Lesson Horses" },
+      { href: "/news", label: "News" },
     ],
   },
   { href: "/services", label: "Services" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/events", label: "Events" },
   { href: "/awards", label: "Awards" },
-  { href: "/news", label: "News" },
   { href: "/testimonials", label: "Testimonials" },
 ]
 

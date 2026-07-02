@@ -53,6 +53,7 @@ export async function Footer() {
                 { href: "/about", label: "About" },
                 { href: "/services", label: "Services" },
                 { href: "/gallery", label: "Gallery" },
+                { href: "/events", label: "Events" },
                 { href: "/awards", label: "Awards" },
                 { href: "/news", label: "News" },
                 { href: "/testimonials", label: "Testimonials" },
