@@ -26,21 +26,17 @@ const placementColors: Record<string, string> = {
 
 export default async function AwardsPage() {
   const [cmsAwards, page] = await Promise.all([getAwards(), getPageBySlug("awards")])
-  const awards = cmsAwards.length > 0 ? cmsAwards : fallbackAwards
+  const hasAwards = cmsAwards.length > 0
+  const awards = hasAwards ? cmsAwards : fallbackAwards
   const years = [...new Set(awards.map((a) => a.year))].sort((a, b) => b - a)
 
   const heroEyebrow = page?.hero?.eyebrow || "Our Accomplishments"
   const heroHeading = page?.hero?.heading || "Awards & Results"
   const heroSubheading = page?.hero?.subheading || "A record of success built one stride at a time. We are proud of every horse-and-rider pair who has competed under the RPF banner."
 
-  const fallbackStats = [
-    { icon: "Trophy", value: "50+", label: "Championships" },
-    { icon: "Medal", value: "200+", label: "Blue Ribbons" },
-    { icon: "Star", value: "15+", label: "Divisions Won" },
-    { icon: "Trophy", value: "10+", label: "Shows Per Year" },
-  ]
+  // Only show the stats band once there's real content in the CMS
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const stats = (page?.stats?.length > 0 ? page.stats : fallbackStats).map((s: any) => ({
+  const stats = (page?.stats?.length > 0 ? page.stats : []).map((s: any) => ({
     Icon: statIconMap[s.icon] || Trophy,
     value: s.value,
     label: s.label,
@@ -60,22 +56,39 @@ export default async function AwardsPage() {
       </section>
 
       {/* Stats */}
-      <section className="py-16 bg-[#13233f]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {stats.map((stat: any) => (
-              <div key={stat.label}>
-                <stat.Icon className="h-8 w-8 text-amber-400 mx-auto mb-3" />
-                <div className="font-serif text-4xl font-bold text-white mb-1">{stat.value}</div>
-                <div className="text-blue-200 text-sm">{stat.label}</div>
-              </div>
-            ))}
+      {stats.length > 0 && (
+        <section className="py-16 bg-[#13233f]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              {stats.map((stat: any) => (
+                <div key={stat.label}>
+                  <stat.Icon className="h-8 w-8 text-amber-400 mx-auto mb-3" />
+                  <div className="font-serif text-4xl font-bold text-white mb-1">{stat.value}</div>
+                  <div className="text-blue-200 text-sm">{stat.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Coming soon placeholder (no awards added yet) */}
+      {!hasAwards && (
+        <section className="py-28 bg-stone-50">
+          <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <Trophy className="h-14 w-14 text-amber-400 mx-auto mb-6" />
+            <h2 className="font-serif text-3xl font-bold text-stone-900 mb-3">Coming Soon</h2>
+            <p className="text-stone-500 leading-relaxed">
+              We&apos;re putting together a record of our show results and championships.
+              Check back soon to see what our horses and riders have been up to in the ring!
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Results by year */}
+      {hasAwards && (
       <section className="py-24 bg-stone-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {years.map((year) => (
@@ -113,6 +126,7 @@ export default async function AwardsPage() {
           ))}
         </div>
       </section>
+      )}
     </>
   )
 }
